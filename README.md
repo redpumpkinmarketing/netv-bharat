@@ -1,35 +1,38 @@
 # NETV Bharat
 
-Minimalist NETV Bharat newsroom frontend, maintained by Red Pumpkin Marketing.
+NETV Bharat newsroom frontend, maintained by Red Pumpkin Marketing.
 
-## Status
-Frontend staging release. Sample articles, reserved ad slots and draft policies are intentionally labelled. CMS, database, admin login, live election data, analytics and ad serving are not connected yet. Search indexing is disabled until editorial launch.
+## Architecture
+The frontend now uses clean History API routes such as `/elections`, `/india` and `/article/cities` instead of hash URLs. Vite is the production build system and Apache/Hostinger fallback rules route direct requests back to `index.html`.
 
-## Structure
-- `dist/`: complete editable HTML, CSS, JavaScript and original image assets; also the upload-ready website.
-- `checks/frontend.mjs`: frontend interaction checks.
-- `package.json` and lockfile: local development dependencies.
+Source code lives in:
+- `src/main.js` — application UI, route rendering and interactions
+- `src/data/stories.js` — temporary editorial data layer
+- `src/policies.js` — policy/editorial information pages
+- `src/style.css` — responsive design system
+- `index.html` — application shell
 
-## Local development
-Use Node.js compatible with the Vite version in the lockfile.
+The current data layer is intentionally local/mock. It is separated so the next phase can replace it with a CMS/API/database without redesigning the frontend routes or presentation layer.
+
+## Development
 
 ```sh
 npm ci
 npm run dev
-node checks/frontend.mjs
 ```
 
-## Upload to Hostinger or another static host
-Back up the existing website first. Copy the **contents of dist/** into the selected domain's document root (usually `public_html/`). The resulting path must be `public_html/index.html`, not `public_html/dist/index.html`.
+## Production build
 
-No server-side Node process or build is required. Assets use domain-root URLs, so deploy at the domain root. Use HTTPS. Fonts request Google Fonts and include fallback fonts. Do not upload node_modules or development configuration to the public root.
+```sh
+npm run build
+```
 
-This repository upload alone does not enable GitHub Pages or configure hosting.
-
-## Verification
-50 linked routes, 8 policy pages, search, state filtering, menu interactions, language reset, keyboard focus, internal anchors and asset checks passed. JavaScript syntax checks passed. Actual browser visual verification remains pending; responsive CSS was reviewed.
-
-After hosting, check 320, 390, 768, 1024 and 1440px widths, navigation, search, footer, article refresh and copy-link behavior over HTTPS.
+Hostinger deployment settings:
+- Framework: Vite
+- Root directory: ./
+- Build command: npm run build
+- Output directory: dist
+- Package manager: npm
 
 ## Backend phase
-Connect a CMS/database with editorial roles, article publishing, language editions, state/category mapping, media uploads, ad management and analytics. Add crawlable article/language routes and article metadata. Finalize real content, publisher/contact details and policies before removing noindex. Noindex is not access control; use hosting access protection for private staging.
+Next phase: connect the content layer to the newsroom backend/database and build authenticated admin workflows for articles, categories, states, authors, media, publishing, election coverage, ads and analytics.
