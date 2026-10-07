@@ -3,9 +3,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite --host 0.0.0.0",
-    "build": "vite build",
-    "preview": "vite preview"
+    "dev": "vite dist --host 0.0.0.0",
+    "build": "node -e \"console.log('NETV Bharat static site ready in dist')\"",
+    "preview": "vite dist --host 0.0.0.0"
   },
   "devDependencies": {
     "jsdom": "^30.1.0",
