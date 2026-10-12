@@ -4,3 +4,10 @@ RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^ - [L]
 RewriteRule ^ index.html [L]
+
+<IfModule mod_setenvif.c>
+SetEnvIf Request_URI "^/admin(/|$)" newsroom_admin
+</IfModule>
+<IfModule mod_headers.c>
+Header set X-Robots-Tag "noindex, nofollow" env=newsroom_admin
+</IfModule>
